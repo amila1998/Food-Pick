@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  labels:
+    app: auth-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: amila1998/food-pick-auth-service:latest
+          ports:
+            - containerPort: 4000
+          env:
+            - name: JWT_SECRET
+              value: "asjcdajshnqwjqwnqwdqwjdmlmlkkpSKKAP"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  selector:
+    app: auth-service
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
+  type: LoadBalancer
