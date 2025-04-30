@@ -7,9 +7,9 @@ require("dotenv").config(); // Load environment variables from .env file
 const app = express();
 
 // Middleware (Ensure correct ordering)
-// Enable Cross-Origin Resource Sharing (CORS) for requests from the specified origin
 
-app.use(cors({ credentials: true, origin: [process.env.ORGINS]  }));
+// Enable Cross-Origin Resource Sharing (CORS) for requests from the specified origin
+app.use(cors({ origin: [process.env.ORGINS] }));
 
 // Parse incoming JSON requests with a size limit of 50MB
 app.use(express.json({ limit: "50mb", strict: false }));

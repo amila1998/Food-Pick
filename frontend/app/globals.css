@@ -1,0 +1,224 @@
+/* @import 'tailwindcss/tailwind.css';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities"; */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
+html{
+  overflow: auto;
+}
+
+html::-webkit-scrollbar {
+  width: 2px;
+}
+
+html::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #ffecd1;
+  border: 1px solid #ffecd1;
+  /* box-shadow: inset 0 0 5px rgba(0, 0, 0, .3); */
+}
+
+html::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #fdcb86;
+}
+
+div::-webkit-scrollbar {
+  width: 2px;
+}
+
+div::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #ffecd1;
+  border: 1px solid #ffecd1;
+  /* box-shadow: inset 0 0 5px rgba(0, 0, 0, .3); */
+}
+
+div::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #fdcb86;
+}
+form::-webkit-scrollbar {
+  width: 2px;
+}
+
+form::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #ffecd1;
+  border: 1px solid #ffecd1;
+  /* box-shadow: inset 0 0 5px rgba(0, 0, 0, .3); */
+}
+
+form::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #fdcb86;
+}
+
+
+
+body {
+  position: relative;
+  width: 100%;
+  margin: auto;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/assets/Futuristic_Background_HD.jpg') no-repeat center center fixed;
+  background-size: cover;
+  opacity: 4%;
+  /* Set opacity to 10% */
+  z-index: -1;
+  /* Ensure it stays behind content */
+}
+
+
+
+/* Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  /* IE and Edge */
+  scrollbar-width: none !important;
+  /* Firefox */
+}
+
+
+/* Loader */
+
+.loader {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 50px;
+  height: 80px;
+  border-top: 5px solid #6666;
+  border-bottom: 5px solid #6666;
+  position: relative;
+  background: linear-gradient(#FA9D1C 30px, transparent 0) no-repeat;
+  background-size: 2px 40px;
+  background-position: 50% 0px;
+  animation: spinx 5s linear infinite;
+}
+.loader:before, .loader:after {
+  content: "";
+  width: 40px;
+  left: 50%;
+  height: 35px;
+  position: absolute;
+  top: 0;
+  transform: translatex(-50%);
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 0 0 20px 20px;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: 0 0px;
+  animation: lqt 5s linear infinite;
+}
+.loader:after {
+  top: auto;
+  bottom: 0;
+  border-radius: 20px 20px 0 0;
+  animation: lqb 5s linear infinite;
+}
+@keyframes lqt {
+  0%, 100% {
+    background-image: linear-gradient(#FA9D1C 40px, transparent 0);
+    background-position: 0% 0px;
+  }
+  50% {
+    background-image: linear-gradient(#FA9D1C 40px, transparent 0);
+    background-position: 0% 40px;
+  }
+  50.1% {
+    background-image: linear-gradient(#FA9D1C 40px, transparent 0);
+    background-position: 0% -40px;
+  }
+}
+@keyframes lqb {
+  0% {
+    background-image: linear-gradient(#FA9D1C 40px, transparent 0);
+    background-position: 0 40px;
+  }
+  100% {
+    background-image: linear-gradient(#FA9D1C 40px, transparent 0);
+    background-position: 0 -40px;
+  }
+}
+@keyframes spinx {
+  0%, 49% {
+    transform: rotate(0deg);
+    background-position: 50% 36px;
+  }
+  51%, 98% {
+    transform: rotate(180deg);
+    background-position: 50% 4px;
+  }
+  100% {
+    transform: rotate(360deg);
+    background-position: 50% 36px;
+  }
+}
+
+.perspective {
+  perspective: 1000px; /* Enables 3D perspective */
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d; /* Ensures smooth flipping */
+}
+
+.group-hover\:rotate-y-180:hover {
+  transform: rotateY(180deg);
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.star-shape {
+  position: relative;
+  display: inline-block;
+  background-color: #ffcc00; /* Yellow star color */
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 6px 12px;
+  clip-path: polygon(
+    50% 0%, 
+    61% 35%, 
+    98% 35%, 
+    68% 57%, 
+    79% 91%, 
+    50% 70%, 
+    21% 91%, 
+    32% 57%, 
+    2% 35%, 
+    39% 35%
+  );
+}
+
+
+
+

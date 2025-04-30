@@ -8,7 +8,24 @@ require("dotenv").config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+
+    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || ["http://localhost:3000", "http://localhost:3001"];
+      // Then use allowedOrigins in your if statement
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true); // Origin is allowed
+      } else {
+        win.warn("Not allowed by CORS");
+        callback(new Error("Not allowed by CORS")); // Origin is not allowed
+      }
+    },
+    credentials: true, // Allow credentials (cookies, auth headers, etc.)
+  })
+);
 app.use(express.json());
 app.use(helmet());
 
@@ -38,8 +55,8 @@ const SERVICES = {
 const forwardRequest = async (serviceUrl, req, res) => {
     try {
         const originalUrl = `/api${req.originalUrl}`;
-        console.log("🚀 ~ forwardRequest ~ url:", serviceUrl + originalUrl);
         const method = req.method; // GET, POST, PUT, DELETE
+        console.log("🚀 ~ forwardRequest ~ originalUrl:", originalUrl)
         const token = req.headers["authorization"];
 
         let response;
@@ -54,6 +71,9 @@ const forwardRequest = async (serviceUrl, req, res) => {
             break;
             case "PUT":
             response = await axios.put(serviceUrl + originalUrl, req.body, { headers });
+            break;
+            case "PATCH":
+            response = await axios.patch(serviceUrl + originalUrl, req.body, { headers });
             break;
             case "DELETE":
             response = await axios.delete(serviceUrl + originalUrl, { headers });
@@ -88,13 +108,13 @@ app.all("/auth/*", (req, res) => forwardRequest(SERVICES.AUTH, req, res));
 app.all("/restaurants/*", (req, res) => forwardRequest(SERVICES.RESTAURANTS, req, res));
 
 // **Order Service (Requires Authentication)**
-app.all("/orders/*", verifyToken, (req, res) => forwardRequest(SERVICES.ORDERS, req, res));
+app.all("/orders/*", (req, res) => forwardRequest(SERVICES.ORDERS, req, res));
 
 // **Delivery Service (Requires Authentication)**
-app.all("/delivery/*", verifyToken, (req, res) => forwardRequest(SERVICES.DELIVERY, req, res));
+app.all("/delivery/*", (req, res) => forwardRequest(SERVICES.DELIVERY, req, res));
 
 // **Payment Service (Requires Authentication)**
-app.all("/payment/*", verifyToken, (req, res) => forwardRequest(SERVICES.PAYMENT, req, res));
+app.all("/payment/*", (req, res) => forwardRequest(SERVICES.PAYMENT, req, res));
 
 // **Notification Service**
 app.all("/notifications/*", (req, res) => forwardRequest(SERVICES.NOTIFICATIONS, req, res));

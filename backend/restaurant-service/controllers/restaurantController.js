@@ -1,5 +1,5 @@
 const Item = require("../models/itemModel");
-
+const User = require("../models/userModel");
 const restaurantController = {
   create: async (req, res) => {
     try {
@@ -53,45 +53,74 @@ const restaurantController = {
       res.status(500).json({ msg: error.message });
     }
   },
-  delete: async (req,res)=>{
+  delete: async (req, res) => {
     try {
-
-        let id = req.params.id;
+      let id = req.params.id;
       const item = await Item.findById(id);
       if (!item) {
         return res.status(404).json({ msg: "Item not found" });
       }
 
-      await Item.findByIdAndUpdate( { _id: id },{isDeleted:true})
-
-        
+      await Item.findByIdAndUpdate({ _id: id }, { isDeleted: true });
     } catch (error) {
-        console.log("🚀 ~ delete: ~ error:", error)
-        res.status(500).json({ msg: error.message });
+      console.log("🚀 ~ delete: ~ error:", error);
+      res.status(500).json({ msg: error.message });
     }
   },
-  getAll: async(req,res)=>{
+  getAll: async (req, res) => {
     try {
-
-        const name = req.query.name;
-        const query = name ? { name: { $regex: name, $options: "i" }, isDeleted: false } : { isDeleted: false };
-        const items = await Item.find(query).populate('user');
-        res.status(200).json(items);
-        
+      const name = req.query.name;
+      const query = name
+        ? { name: { $regex: name, $options: "i" }, isDeleted: false }
+        : { isDeleted: false };
+      const items = await Item.find(query).populate("user");
+      res.status(200).json(items);
     } catch (error) {
-        console.log("🚀 ~ getAll:async ~ error:", error)
-        res.status(500).json({ msg: error.message });
+      console.log("🚀 ~ getAll:async ~ error:", error);
+      res.status(500).json({ msg: error.message });
     }
   },
-  getOwnItems: async(req,res)=>{
+  getOwnItems: async (req, res) => {
     try {
-        const items = await Item.find({ isDeleted: false, user: req.user._id }).populate('user');
-        res.status(200).json(items);
+      const items = await Item.find({
+        isDeleted: false,
+        user: req.user._id,
+      }).populate("user");
+      res.status(200).json(items);
     } catch (error) {
-        console.log("🚀 ~ getOwnItems:async ~ error:", error)
-        res.status(500).json({ msg: error.message });
+      console.log("🚀 ~ getOwnItems error:", error);
+      res.status(500).json({ msg: error.message });
     }
-  }
+  },
+  getAllRestaurants: async (req, res) => {
+    try {
+      const users = User.find({isDeleted:false, role:'restaurant'})
+      res.status(200).json(users);
+    } catch (error) {
+      console.log("🚀 ~ getAllRestaurants:async ~ error:", error);
+      res.status(500).json({ msg: error.message });
+    }
+  },
+  availability: async (req, res) => {
+    try {
+
+      await User.findByIdAndUpdate(req.params.id,{available:req.body.available})
+      res.status(200).json("Update completed");
+    } catch (error) {
+      console.log("🚀 ~ availability:async ~ error:", error);
+      res.status(500).json({ msg: error.message });
+    }
+  },
+  verify: async (req, res) => {
+    try {
+      
+      await User.findByIdAndUpdate(req.params.id,{verified:req.body.verified})
+      res.status(200).json("Update completed");
+    } catch (error) {
+      console.log("🚀 ~ verify:async ~ error:", error);
+      res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 module.exports = restaurantController;

@@ -1,0 +1,77 @@
+import flowbite from "flowbite-react/tailwind";
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./views/**/*.{js,ts,jsx,tsx,mdx}",
+    "./layouts/**/*.{js,ts,jsx,tsx,mdx}",
+    flowbite.content(),
+  ],
+  theme: {
+    darkMode: "class",
+    extend: {
+      colors: {
+        primary:"#FA9D1C",
+        primary_focus:"#FBB048",
+        tooltip:"#777575",
+        body_dark: "rgba(119, 117, 117, 0.2)",
+        body_light: "#FFFFFF",
+        black:"#000000",
+        white:"#FFFFFF",
+        yellow: {
+          50: "#FFFBEB",
+          100: "#FEF3C7",
+          200: "#FDE68A",
+          300: "#FCD34D",
+          400: "#FBBF24",
+          500: "#F59E0B",
+          600: "#D97706",
+          700: "#B45309",
+          800: "#92400E",
+          900: "#78350F",        
+        },
+        gray: {
+          50: "#F9FAFB",
+          100: "#F3F4F6",
+          200: "#E5E7EB",
+          300: "#D1D5DB",
+          400: "#9CA3AF",
+          500: "#6B7280",
+          600: "#4B5563",
+          700: "#374151",
+          800: "#1F2937",
+          900: "#111827",
+        },
+        danger:"#B30000",
+        success:"#01961A",
+      },
+      zIndex: {
+        0: '0',
+        10: '10',
+        20: '20',
+        30: '30',
+        40: '40',
+        50: '50',
+        60: '60',
+        100: '100',
+        200: '200',
+        300: '300',
+        400: '400',
+        500: '500',
+        600: '600',
+        700: '700',
+        800: '800',
+        900: '900',
+        1000: '1000',
+      },
+      boxShadow: {
+        custom: '0px 5px 10px rgba(149, 157, 165, 0.2)',
+      },
+    },
+  },
+  plugins: [flowbite.plugin()],
+};
+export default config;

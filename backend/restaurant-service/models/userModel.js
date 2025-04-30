@@ -31,6 +31,10 @@ const userSchema = new Schema(
             default: 'customer',
             enum: ['customer', 'admin', 'delivery','restaurant']
         },
+        available:{
+            type:Boolean,
+            default:true
+        },
         verified:{
             type:Boolean,
             default:false
