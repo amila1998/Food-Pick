@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import * as motion from "motion/react-client"
 import Button from "@/components/Button/Button";
-import FavoriteButton from "@/components/FavoriteButton/FavoriteButton";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { addtoCart } from "@/actions/cart";
 import { toast } from "react-toastify";

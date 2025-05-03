@@ -15,7 +15,6 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "@/components/Button/Button";
 import getCurrency from "@/utils/getCurrencey";
-import FavoriteButton from "@/components/FavoriteButton/FavoriteButton";
 import FaFaIconButton from "@/components/IconButton/FaFaIconButton";
 import Input from "@/components/Input/Input";
 import RadioButtonGroup from "@/components/RadioButtonGroup/RadioButtonGroup";

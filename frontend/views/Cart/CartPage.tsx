@@ -6,7 +6,6 @@ import Image from "next/image";
 import Loader from "@/components/Loader/Loader";
 import { motion } from "framer-motion";
 import Button from "@/components/Button/Button";
-import FavoriteButton from "@/components/FavoriteButton/FavoriteButton";
 import FaFaIconButton from "@/components/IconButton/FaFaIconButton";
 import getCurrency from "@/utils/getCurrencey";
 import Input from "@/components/Input/Input";

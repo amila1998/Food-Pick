@@ -3,13 +3,12 @@ import Button from '@/components/Button/Button';
 import Input from '@/components/Input/Input';
 import Label from '@/components/Label/Label';
 import ProfilePicture from '@/components/ProfilePicture/ProfilePicture'
-import { auth } from '@/lib/firebaseConfig';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { VERIFIED_ICON } from '@/utils/icons';
 import React, { useEffect, useState } from 'react'
 import moment from 'moment';
 import LinkButton from '@/components/LinkButton/LinkButton';
-import { updateUserProfile, uploadProfilePicture, verifyEmail } from '@/actions/user';
+
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import Loader from '@/components/Loader/Loader';
@@ -19,9 +18,9 @@ interface Role {
   name: string;
 }
 const ProfileSettingsPage: React.FC = () => {
-const [user, setUser] = useState<any>({...auth.currentUser});
+const auth = useAppSelector((state)=>state.auth.user)
+const [user, setUser] = useState<any>(auth);
 const dispatch = useAppDispatch();
-const userType = useAppSelector((state) => state.auth.type);
 
 const [isClient, setIsClient] = useState(false);
 const [isLoading, setIsLoading] = useState(false);
@@ -33,23 +32,23 @@ useEffect(() => {
 }
 , []);
 
-useEffect(() => {
-  const currentUser = auth.currentUser;
-  if (currentUser?.displayName) {
-    document.title = `${currentUser.displayName}'s Profile Settings | FOOD PICK`;
-  } else {
-    document.title = `Profile Settings | FOOD PICK`;
-  }
-}, []);
+// useEffect(() => {
+//   const currentUser = auth.currentUser;
+//   if (currentUser?.displayName) {
+//     document.title = `${currentUser.displayName}'s Profile Settings | FOOD PICK`;
+//   } else {
+//     document.title = `Profile Settings | FOOD PICK`;
+//   }
+// }, []);
 
 
 
-const role: Role | null = useAppSelector((state) => state.auth.role) as unknown as Role | null;
+// const role: Role | null = useAppSelector((state) => state.auth.role) as unknown as Role | null;
 
 const handleSendVerifyMail = async () => {
   try {
     setIsLoading(true);
-    await dispatch(verifyEmail());
+    // await dispatch(verifyEmail());
     toast.success('Verification email sent successfully! Pleace check your email');
   } catch (error: any) {
     toast.error(error)
@@ -58,39 +57,39 @@ const handleSendVerifyMail = async () => {
   }
 }
 
-const handleImageUpload = async (file: File): Promise<string | null> => {
-  try {
-    const formData = new FormData();
-    formData.append('image', file);
-    const res = await dispatch(uploadProfilePicture({formData}));
-    return res.url;
-  } catch (error: any) {
-    toast.error("Failed to upload image: " + error);
-    return null;
-  }
-};
+// const handleImageUpload = async (file: File): Promise<string | null> => {
+//   try {
+//     const formData = new FormData();
+//     formData.append('image', file);
+//     // const res = await dispatch(uploadProfilePicture({formData}));
+//     return res.url;
+//   } catch (error: any) {
+//     toast.error("Failed to upload image: " + error);
+//     return null;
+//   }
+// };
 
-const handleProfileUpdate = async () => {
-  try {
-    setIsLoading(true);
-    type UpdatedUser = { displayName: string; photoURL: string };
-    let updatedUser: UpdatedUser = { photoURL: user.photoURL, displayName: user.displayName };
-    if(isPhotoUpdated && newPhoto){
-      const uploadedPhotoUrl = await handleImageUpload(newPhoto);
-      if (uploadedPhotoUrl) {
-        updatedUser.photoURL = uploadedPhotoUrl;
-      } else {
-        throw new Error("Failed to upload photo");
-      }
-    }
-    await dispatch(updateUserProfile(updatedUser));
-    toast.success('Profile updated successfully');
-  } catch (error: any) {
-    toast.error(error);
-  } finally {
-    setIsLoading(false);
-  }
-}
+// const handleProfileUpdate = async () => {
+//   try {
+//     setIsLoading(true);
+//     type UpdatedUser = { displayName: string; photoURL: string };
+//     let updatedUser: UpdatedUser = { photoURL: user.photoURL, displayName: user.displayName };
+//     if(isPhotoUpdated && newPhoto){
+//       const uploadedPhotoUrl = await handleImageUpload(newPhoto);
+//       if (uploadedPhotoUrl) {
+//         updatedUser.photoURL = uploadedPhotoUrl;
+//       } else {
+//         throw new Error("Failed to upload photo");
+//       }
+//     }
+//     await dispatch(updateUserProfile(updatedUser));
+//     toast.success('Profile updated successfully');
+//   } catch (error: any) {
+//     toast.error(error);
+//   } finally {
+//     setIsLoading(false);
+//   }
+// }
 
   return (
    <>
@@ -142,12 +141,12 @@ const handleProfileUpdate = async () => {
             </div>
             <div className='mb-4'>
               <Input
-                label={`User Type`}
+                label={`User Role`}
                 onChange={(e) => {}}
                 id={'auth_typr'}
                 name={'auth_type'}
                 type={'text'}
-                value={userType === "USER" ? "User" : "Admin"}
+                value={user.role}
                 isDisable={true}
                 error={""}
               />
@@ -166,12 +165,12 @@ const handleProfileUpdate = async () => {
             </div>
 
 
-            <div className='mb-4 w-[90%] m-auto'>
+            {/* <div className='mb-4 w-[90%] m-auto'>
               <Button label='Save Changes' onClick={() => {handleProfileUpdate() }} type='filled' color='primary' />
-            </div>
+            </div> */}
           </form>
         </div>
-        {
+        {/* {
           userType === "ADMIN" && role && 
           <div className='w-full p-4 rounded-md shadow-md bg-body_light dark:bg-body_dark'>
           <h2 className='text-2xl font-bold text-left'>Role</h2>
@@ -190,7 +189,7 @@ const handleProfileUpdate = async () => {
             </div>
           </form>
         </div>
-        }
+        } */}
       </div>
     </div>
    </>

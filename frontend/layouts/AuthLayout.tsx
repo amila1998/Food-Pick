@@ -7,7 +7,7 @@ import { IoMdMenu, IoMdClose } from "react-icons/io";
 import { motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import LinkButton from "@/components/LinkButton/LinkButton";
-import { getAuth } from "firebase/auth";
+
 
 const adminroutes = [
   // {
@@ -21,23 +21,13 @@ const adminroutes = [
     hasPermission: true,
   },
   {
-    name: "My Courses",
-    path: "/auth/my-courses",
-    hasPermission: true,
-  },
-  {
-    name: "My Subscriptions",
-    path: "/auth/my-subscriptions",
+    name: "My Orders",
+    path: "/auth/my-orders",
     hasPermission: true,
   },
   {
     name: "My Payments",
     path: "/auth/my-payments",
-    hasPermission: true,
-  },
-  {
-    name: "My Favorites",
-    path: "/auth/my-favorites",
     hasPermission: true,
   },
 ];
@@ -49,20 +39,15 @@ export default function AuthLayout({
   children: ReactNode;
 }) {
   const [isClient, setIsClient] = useState(false);
-  const userType = useAppSelector((state) => state.auth.type);
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [routes, setRoutes] = useState([...adminroutes]);
   const pathname = usePathname();
-  const auth = getAuth();
+
 
   const router = useRouter()
 
-  useEffect(() => {
-    if (isClient && auth && !auth.currentUser) {
-      router.replace("/")
-    }
 
-  }, [isClient,auth])
 
   useEffect(() => {
     setIsClient(true);
@@ -127,11 +112,12 @@ export default function AuthLayout({
                     key={index}
                     className={`pt-4 text-left ${isActive ? "text-blue-500 font-bold" : "text-white"}`}
                     >
-                    {route.path === "/profile" ? (
-                      <LinkButton label={route.name} path={route.path+"?id="+auth.currentUser?.uid} active={isActive} newTab />
+                      <LinkButton label={route.name} path={route.path} active={isActive} />
+                    {/* {route.path === "/profile" ? (
+                      // <LinkButton label={route.name} path={route.path+"?id="+auth.currentUser?.uid} active={isActive} newTab />
                     ) : (
                       <LinkButton label={route.name} path={route.path} active={isActive} />
-                    )}
+                    )} */}
                     </motion.div>
                   );
                   })
